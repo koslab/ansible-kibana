@@ -20,6 +20,10 @@
       - name: install httpd
         yum: name=httpd
 
+      - name: install wget
+        yum: name=wget
+
+
       - name: create runtime user
         user: name=runtime shell=/bin/bash
 
@@ -53,6 +57,16 @@
 
       - name: configure kibana
         copy: src=config/kibana.yml dest=/opt/kibana-4.2.0-linux-x64/config/kibana.yml owner=root group=root
+
+      - name: copy initializer script
+        copy: src=config/kibana-init.sh dest=/root/kibana-init.sh owner=root group=root
+
+      - name: initialize kibana 
+        command: sh /root/kibana-init.sh
+        args:
+            creates: /home/runtime/run/.kibana-initialized
+
+      # start services on boot
 
       - name: create kibana supervisord config
         copy: src=config/supervisord.ini dest=/etc/supervisord.d/kibana.ini owner=root group=root

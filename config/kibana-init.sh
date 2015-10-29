@@ -1,4 +1,7 @@
+#!/bin/bash
 
+# Sample data from
+# https://www.elastic.co/guide/en/kibana/current/getting-started.html
 
 DIR=`mktemp -d`
 
@@ -24,4 +27,4 @@ gzip -d logs.jsonl.gz
 curl -XPOST 'localhost:9200/bank/_bulk?pretty' --data-binary @accounts.json
 curl -XPOST 'localhost:9200/shakespeare/_bulk?pretty' --data-binary @shakespeare.json
 curl -XPOST 'localhost:9200/_bulk?pretty' --data-binary @logs.jsonl
-
+touch /home/runtime/run/.kibana-initialized
